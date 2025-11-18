@@ -1,0 +1,24 @@
+services:
+  my_image:
+    build:
+      context: .
+      dockerfile: dockerfile
+      args:
+        UID: 1000
+        GID: 1000
+    image: back-laravel
+    container_name: back_laravel
+    ports:
+      - "8080:80"
+    networks:
+      - my_net
+    volumes:
+      - ./LaravelServer:/var/www/html
+    environment:
+      - TZ=America/Mexico_City
+
+# Utilizo una red externa creada previamente, 
+# se puede crear una si no se tiene una
+networks:
+  my_net:
+    external: true
