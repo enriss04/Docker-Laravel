@@ -7,7 +7,7 @@ services:
         UID: 1000
         GID: 1000
     image: back-laravel
-    container_name: back_laravel
+    container_name: my_laravel_container
     ports:
       - "8080:80"
     networks:

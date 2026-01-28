@@ -1,30 +1,29 @@
 (LARAVEL-CONTENEDOR)
 
-1. Crear dockerfile que debe contener los siguientes apartados:
-    1. Crear el servidor de apache para laravel
+1. Archivo dockerfile que contiene:
+    1. Creación del servidor de apache para laravel
     2. Id de la maquina fisica
     3. Instalar las dependencias que ocupa laravel y php como gd por ejemplo
     4. Configurar apache para que funcione con laravel
     5. Instalar composer
     6. Exponer el puerto 80 virtual
 
-2. Crear el docker-compose que debe de contener los siguientes apartados:
+2. Archivo docker-compose que contiene:
     1. Nombre del contenedor
     2. El id de la maquina fisica para evitar problemas de permisos
     3. Puerto fisico y virtual que usara el contenedor
     4. La red donde estara el contenedor
     5. El volumen que contendra los archivos del proyecto
 
-
 3. levantar el contenedor usando el comando: 
     docker compose up --build -d
 
 4. Si es la primera vez creando el proyecto y no existe la carpeta LaravelServer seguir los siguientes pasos, de lo contrario pasar al punto 5:
     1. Crear el proyecto de laravel:
-        docker exec -it back_laravel composer create-project laravel/laravel .
+        docker exec -it my_laravel_container composer create-project laravel/laravel .
         
     2. Otorgar los permisos de escritura a la carpeta storage y cache
-        docker exec -it back_laravel chmod -R 775 storage bootstrap/cache
+        docker exec -it my_laravel_container chmod -R 775 storage bootstrap/cache
 
     3. El usuario actual no tiene los permisos para acceder a bootstrap ejecutar los siguientes comandos:
         sudo chown -R $USER:www-data LaravelServer
@@ -41,15 +40,15 @@
         docker compose up -d
 
     5. Limpiar cache de laravel
-        docker exec -it back_laravel php artisan cache:clear
-        docker exec -it back_laravel php artisan view:clear
-        docker exec -it back_laravel php artisan config:clear
+        docker exec -it my_laravel_container php artisan cache:clear
+        docker exec -it my_laravel_container php artisan view:clear
+        docker exec -it my_laravel_container php artisan config:clear
 
 5. Ejecutar el comando para instalar las dependencias que utiliza laravel
-    docker exec -it back_laravel composer install
+    docker exec -it my_laravel_container composer install
     Retomar el punto 4.2
 
 6. Crear el acceso directo del storage 
-    docker exec -it back_laravel php artisan storage:link
+    docker exec -it my_laravel_container php artisan storage:link
 
 7. Personalizar el proyecto laravel
