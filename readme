@@ -16,16 +16,13 @@
     5. El volumen que contendra los archivos del proyecto
 
 3. levantar el contenedor usando el comando: 
-    docker compose up --build -d
+    docker compose build
 
 4. Si es la primera vez creando el proyecto y no existe la carpeta LaravelServer seguir los siguientes pasos, de lo contrario pasar al punto 5:
     1. Crear el proyecto de laravel:
-        docker exec -it my_laravel_container composer create-project laravel/laravel .
-        
-    2. Otorgar los permisos de escritura a la carpeta storage y cache
-        docker exec -it my_laravel_container chmod -R 775 storage bootstrap/cache
-
-    3. El usuario actual no tiene los permisos para acceder a bootstrap ejecutar los siguientes comandos:
+        docker compose run --rm -u root my_laravel_container composer create-project laravel/laravel .
+    
+    2. El usuario actual no tiene los permisos para acceder a bootstrap ejecutar los siguientes comandos:
         sudo chown -R $USER:www-data LaravelServer
         sudo find LaravelServer/storage -type d -exec chmod 775 {} \;
         sudo find LaravelServer/storage -type f -exec chmod 664 {} \;
@@ -35,16 +32,18 @@
         sudo chown -R $USER:www-data storage bootstrap/cache
         sudo chmod -R 775 storage bootstrap/cache
 
-    4. Detener y posteriormente levantar el contenedor
-        docker compose down
+    3. Levantar el contenedor
         docker compose up -d
+
+    4. Otorgar los permisos de escritura a la carpeta storage y cache
+        docker exec -it my_laravel_container chmod -R 775 storage bootstrap/cache
 
     5. Limpiar cache de laravel
         docker exec -it my_laravel_container php artisan cache:clear
         docker exec -it my_laravel_container php artisan view:clear
         docker exec -it my_laravel_container php artisan config:clear
 
-5. Ejecutar el comando para instalar las dependencias que utiliza laravel
+5. Si entrastes en el paso 4 ignora este y sigue con los demas de lo contrario ejecutar el comando para instalar las dependencias que utiliza laravel
     docker exec -it my_laravel_container composer install
     Retomar el punto 4.2
 
