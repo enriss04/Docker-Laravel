@@ -1,5 +1,5 @@
 services:
-  my_image:
+  my_laravel_container:
     build:
       context: .
       dockerfile: dockerfile
