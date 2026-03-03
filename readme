@@ -15,10 +15,11 @@
     4. La red donde estara el contenedor
     5. El volumen que contendra los archivos del proyecto
 
+**Si es la primera vez creando el proyecto y no existe la carpeta LaravelServer seguir los siguientes puntos, de lo contrario pasar al punto 5**
 3. levantar el contenedor usando el comando: 
     docker compose build
 
-4. Si es la primera vez creando el proyecto y no existe la carpeta LaravelServer seguir los siguientes pasos, de lo contrario pasar al punto 5:
+4. Creacion de proyecto nuevo:
     1. Crear el proyecto de laravel:
         docker compose run --rm -u root my_laravel_container composer create-project laravel/laravel .
     
@@ -43,9 +44,10 @@
         docker exec -it my_laravel_container php artisan view:clear
         docker exec -it my_laravel_container php artisan config:clear
 
-5. Si entrastes en el paso 4 ignora este y sigue con los demas de lo contrario ejecutar el comando para instalar las dependencias que utiliza laravel
+5. Si entraste en el punto 3 ignora el punto 5 y sigue con los demas puntos, de lo contrario ejecutar el comando para levantar el servicio e instalar las dependencias que utiliza laravel
+    docker compose up --build -d
     docker exec -it my_laravel_container composer install
-    Retomar el punto 4.2
+    Retomar el punto 4.2, 4.4 y 4.5
 
 6. Crear el acceso directo del storage 
     docker exec -it my_laravel_container php artisan storage:link
